@@ -30,7 +30,7 @@ $environments = array(
 // --------------------------------------------------------------
 // The path to the application directory.
 // --------------------------------------------------------------
-$paths['app'] = 'application';
+$paths['app'] = 'apiapp';
 
 // --------------------------------------------------------------
 // The path to the Laravel directory.
@@ -50,7 +50,7 @@ $paths['storage'] = 'storage';
 // --------------------------------------------------------------
 // The path to the public directory.
 // --------------------------------------------------------------
-$paths['public'] = 'public';
+$paths['public'] = 'api';
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 // END OF USER CONFIGURATION. HERE BE DRAGONS!

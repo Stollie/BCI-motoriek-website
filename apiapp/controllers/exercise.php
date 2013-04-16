@@ -10,7 +10,7 @@
  *
  * @author Remco
  */
-class Api_Exercise_Controller extends Base_Controller {
+class Exercise_Controller extends Base_Controller {
     //put your code here
 
     public $restful = true;
