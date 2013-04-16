@@ -32,7 +32,9 @@
 |
 */
 
-Route::controller('api.exercise.index');
+Route::any('v1/exercises/(:num?)', array('uses' => 'exercises@index'));
+
+Route::any('v1/logs/(:num?)', array('uses' => 'motionlogs@index'));
 
 Route::get('/', function()
 {
