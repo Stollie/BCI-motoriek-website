@@ -12,11 +12,9 @@
     <h2>Get al the logs!!</h2>
 
     {{outlet}}
-  </script>
-
-  <script type="text/x-handlebars">
-    {{#each App.MotionlogsController}}
-        <p>{{id}} {{xyz}}</p>
+    
+    {{#each motionlog in App.MotionlogsController}}
+        <p>{{motionlog.x}} || {{motionlog.y}} || {{motionlog.z}} = {{motionlog.sum}} </p>
     {{/each}}
 </script>
 
