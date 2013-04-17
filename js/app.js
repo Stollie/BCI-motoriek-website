@@ -1,17 +1,6 @@
 $(function() {
-    App = Ember.Application.create({
-        name: "Motoriek"
-        // When everything is loaded.
-        /*ready: function() {
-
-          // Start refresh
-          setInterval(function() {
-            App.MotionlogsController.refresh();
-          }, 5000);
-
-        }*/
-    });
-    
+    App = Ember.Application.create({});
+    // Prefix voor url
     DS.RESTAdapter.reopen({
       namespace: 'api/v1'
     });
@@ -20,8 +9,10 @@ $(function() {
         revision: 12
     });
     
-    App.Motionlog = DS.Modal.extend({
-        id: DS.attr('number'),
+    App.MotionlogsController = Ember.ArrayController.create({});
+    
+    App.Motionlog = DS.Model.extend({
+        //id: DS.attr('number'), Geen Id vermelden
         x: DS.attr('number'),
         y: DS.attr('number'),
         z: DS.attr('number'),
@@ -31,7 +22,7 @@ $(function() {
         created_at: DS.attr('date')
     });
     
-    App.MotionlogsController = Ember.ArrayController.create({      
+    /*App.MotionlogsController = Ember.ArrayController.create({      
         // Default collection is an empty array.
         content: [],
 
@@ -63,7 +54,7 @@ $(function() {
             }
           });
         }
-    });
+    });*/
 
     /*App.Router.map(function() {
         this.resources('motionlogs', {path:'motionlogs/:log_id'});

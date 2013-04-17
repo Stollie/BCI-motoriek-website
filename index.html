@@ -5,6 +5,12 @@
 <title>Ember Starter Kit</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  
+  <script src="js/libs/jquery-1.9.1.js"></script>
+  <script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
+  <script src="js/libs/ember-1.0.0-rc.2.js"></script>
+  <script src="js/libs/ember-data.js"></script>
+  <script src="js/app.js"></script>  
 </head>
 <body>
 
@@ -14,15 +20,11 @@
     {{outlet}}
     
     {{#each motionlog in App.MotionlogsController}}
-        <p>{{motionlog.x}} || {{motionlog.y}} || {{motionlog.z}} = {{motionlog.sum}} </p>
+        <p>-> {{x}} || {{y}} || {{motionlog.z}} = {{motionlog.sum}} </p>
     {{/each}}
 </script>
 
-  <script src="js/libs/jquery-1.9.1.js"></script>
-  <script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
-  <script src="js/libs/ember-1.0.0-rc.2.js"></script>
-  <script src="js/libs/ember-data.js"></script>
-  <script src="js/app.js"></script>
+
 
 </body>
 </html>
