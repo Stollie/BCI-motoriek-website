@@ -1,6 +1,6 @@
-$(function() {  
+$(function() {
     App = Ember.Application.create({
-        name: "Motoriek",
+        name: "Motoriek"
         // When everything is loaded.
         /*ready: function() {
 
@@ -12,12 +12,25 @@ $(function() {
         }*/
     });
     
-    App.Motionlog = Ember.Object.extend({
+    DS.RESTAdapter.reopen({
+      namespace: 'api/v1'
+    });
+    
+    App.Store = DS.Store.extend({
+        revision: 12
+    });
+    
+    App.Motionlog = DS.Modal.extend({
+        id: DS.attr('number'),
+        x: DS.attr('number'),
+        y: DS.attr('number'),
+        z: DS.attr('number'),
         sum: function() {
             return parseFloat(this.get('x')) + parseFloat(this.get('y')) + parseFloat(this.get('z'));
-        }.property('x', 'y', 'z')
+        }.property('x', 'y', 'z'),
+        created_at: DS.attr('date')
     });
-
+    
     App.MotionlogsController = Ember.ArrayController.create({      
         // Default collection is an empty array.
         content: [],
@@ -39,6 +52,9 @@ $(function() {
         // an observer).
         refresh: function() {
           // Poll Log
+          
+          
+          
           var self = this;
           $.getJSON("api/v1/logs/", function(json) {
             // Make a model for each result and add it to the collection.
