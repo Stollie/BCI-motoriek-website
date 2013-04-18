@@ -1,18 +1,18 @@
 $(function() {
-    App = Ember.Application.create({});
+    App = Ember.Application.create({LOG_TRANSITIONS: true});
+    Ember.LOG_BINDINGS = true;
     // Prefix voor url
+
     DS.RESTAdapter.reopen({
       namespace: 'api/v1'
     });
     
-    App.Store = DS.Store.extend({
+    App.store = DS.Store.extend({
         revision: 12
     });
     
-    App.MotionlogsController = Ember.ArrayController.create({});
-    
-    App.Motionlog = DS.Model.extend({
-        //id: DS.attr('number'), Geen Id vermelden
+     App.Motionlog = DS.Model.extend({
+        //id: DS.attr('number'), Geen id toevoegen
         x: DS.attr('number'),
         y: DS.attr('number'),
         z: DS.attr('number'),
@@ -20,8 +20,36 @@ $(function() {
             return parseFloat(this.get('x')) + parseFloat(this.get('y')) + parseFloat(this.get('z'));
         }.property('x', 'y', 'z'),
         created_at: DS.attr('date')
-    });
+    });   
     
+    App.MotionlogsController = Ember.ArrayController.extend({
+    });
+
+    App.MotionlogsView = Ember.View.extend({
+        templateName: 'motionlogs'
+    });
+ 
+    App.Router.map(function() {
+      this.resource('motionlogs', function() {
+        this.resource('motionlog', {path: ':motionlog_id'});
+      });
+    });    
+        
+    App.MotionlogsRoute = Ember.Route.extend({
+        setupController: function(controller) {
+          console.log('Hallo');
+
+        },
+        model: function() {
+          return App.Motionlog.all();
+        }                
+      });
+    
+    /*App.MotionlogView = Ember.View.extend({
+        templateName: 'motionlog',
+        tagName: 'li',
+    });*/
+ 
     /*App.MotionlogsController = Ember.ArrayController.create({      
         // Default collection is an empty array.
         content: [],
@@ -56,9 +84,6 @@ $(function() {
         }
     });*/
 
-    /*App.Router.map(function() {
-        this.resources('motionlogs', {path:'motionlogs/:log_id'});
-    });*/
         
     /*
      * Views
@@ -75,5 +100,4 @@ $(function() {
     /*jQuery.getJSON("api/v1/logs/", function(json) {
         App.MotionlogsController.set('content',json);
     });*/
-
 });

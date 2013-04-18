@@ -7,8 +7,8 @@ class Motionlogs_Controller extends Base_Controller {
     {
         if (is_null($id ))
         {
-            return Response::json(array('motionlogs' => MotionLog::all()));
-            //return Response::eloquent(MotionLog::all());
+            // Eindelijk goed.
+            return json_encode(array('motionlogs' => json_decode(Response::eloquent(MotionLog::all()))));
         }
         else
         {
@@ -17,7 +17,7 @@ class Motionlogs_Controller extends Base_Controller {
             if(is_null($log)){
                 return Response::json('Log not found', 404);
             } else {
-                    return Response::eloquent($log);
+                return json_encode(array('motionlogs' => json_decode(Response::eloquent($log))));
             }
         }
     }
