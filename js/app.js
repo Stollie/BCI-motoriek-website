@@ -1,14 +1,13 @@
 $(function() {
     App = Ember.Application.create({LOG_TRANSITIONS: true});
-    Ember.LOG_BINDINGS = true;
+    //Ember.LOG_BINDINGS = true;
     // Prefix voor url
-
     DS.RESTAdapter.reopen({
       namespace: 'api/v1'
     });
     
-    App.store = DS.Store.extend({
-        revision: 12
+    App.Store = DS.Store.extend({
+        revision: 11
     });
     
      App.Motionlog = DS.Model.extend({
@@ -22,33 +21,36 @@ $(function() {
         created_at: DS.attr('date')
     });   
     
-    App.MotionlogsController = Ember.ArrayController.extend({
-    });
+    App.MotionlogsController = Ember.ArrayController.extend({});
 
     App.MotionlogsView = Ember.View.extend({
         templateName: 'motionlogs'
     });
- 
+     
     App.Router.map(function() {
       this.resource('motionlogs', function() {
-        this.resource('motionlog', {path: ':motionlog_id'});
+        this.resource('motionlog', {path: '/motionlogs/:motionlog_id'});
       });
-    });    
-        
-    App.MotionlogsRoute = Ember.Route.extend({
-        setupController: function(controller) {
-          console.log('Hallo');
-
-        },
-        model: function() {
-          return App.Motionlog.all();
-        }                
-      });
+    });
     
-    /*App.MotionlogView = Ember.View.extend({
-        templateName: 'motionlog',
-        tagName: 'li',
+    /*App.ApplicationRoute = Ember.Route.extend({    
+        activate: function() {
+            console.log('Hallo index');
+        }
     });*/
+    
+    App.MotionlogsRoute = Ember.Route.extend({    
+        model: function(params) {
+          return App.Motionlog.find();
+        },
+        activate: function() {
+            console.log('Hallo motionlogs');
+            //console.log(App.Motionlog.all());
+        },
+        deactivate: function() {
+    
+        }
+    });
  
     /*App.MotionlogsController = Ember.ArrayController.create({      
         // Default collection is an empty array.
