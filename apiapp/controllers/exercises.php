@@ -35,12 +35,19 @@ class Exercises_Controller extends Base_Controller {
  
     public function post_index()
     {
+//        $newexercise = Input::json();
+//        print_r($newexercise->exercise->motionlogs);
+//        $exercise = new Exercise();
+//        $exercise->name = $newexercise->name;
+//        $exercise->save();
+// 
+//        $exercise->motionlogs()->insert($newexercise->motionlogs);
+//        return Response::eloquent($exercise);
+        
         $newexercise = Input::json();
- 
         $exercise = new Exercise();
         $exercise->name = $newexercise->name;
         $exercise->save();
- 
         return Response::eloquent($exercise);
     }
  

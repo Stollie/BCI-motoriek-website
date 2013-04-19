@@ -11,7 +11,7 @@ class MotionLog extends Eloquent {
     //setting $timestamp to true so Eloquent
     //will automatically set the created_at
     //and updated_at values
-    public static $timestamps = true;
+    public static $timestamps = false;
      
     //Eloquent assumes that the foreign key used in User_Profile is the referenced
     //table.s name + _id. Again, if you want to change this behaviour,
@@ -38,11 +38,11 @@ class MotionLog extends Eloquent {
     }
     */
     
-    /*
-    public function group()
+    
+    public function exercise()
     {
-        return $this->belongs_to('Group');
+        return $this->belongs_to('Exercise');
     }
-    */
+    
 }
 

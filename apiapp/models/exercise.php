@@ -31,12 +31,12 @@ class Exercise extends Eloquent {
         return $this->has_many_and_belongs_to('User', 'relationships', 'followed_id', 'follower_id');
     }
     */ 
-    /*
-    public function photos()
+    
+    public function motionlogs()
     {
-        return $this->has_many('Photo');
+        return $this->has_many('Motionlog');
     }
-    */
+    
     
     /*
     public function group()

@@ -25,11 +25,14 @@ class Motionlogs_Controller extends Base_Controller {
     public function post_index()
     {
         $newlog = Input::json();
- 
+
         $log = new MotionLog();
-        $log->xyz = $newlog->xyz;
+        $log->exercise_id = $newlog->exercise_id;
+        $log->roll = $newlog->roll;
+        $log->pitch = $newlog->pitch;
+        $log->yaw = $newlog->yaw;
         $log->save();
- 
+
         return Response::eloquent($log);
     }
  
