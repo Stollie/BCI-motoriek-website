@@ -12,14 +12,12 @@
         {{outlet}}
 
     </script>
-    <script type="text/x-handlebars" data-template-name="motionlog">
-        :: {{motionlog.x}} || {{motionlog.y}} || {{motionlog.z}} = {{motionlog.sum}}
-    </script>    
+   
     <script type="text/x-handlebars" data-template-name="motionlogs">
         <p>Logs:</p>
         <ul>
         {{#each model}}
-            {{render "user" this}}
+            {{render "log" this}}
         {{/each}}
         </ul>
         
@@ -28,8 +26,8 @@
         {{log record}}        
     </script>
     
-    <script type="text/x-handlebars" id="user">
-        <li>:: {{x}} || {{y}} || {{z}} = {{sum}}</li>
+    <script type="text/x-handlebars" id="log">
+        <li>:: {{roll}} || {{pitch}} || {{yaw}} = {{sum}}</li>
     </script>
 
     

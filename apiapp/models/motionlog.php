@@ -37,12 +37,10 @@ class MotionLog extends Eloquent {
         return $this->has_many('Photo');
     }
     */
-    
-    
+
     public function exercise()
     {
         return $this->belongs_to('Exercise');
     }
-    
 }
 

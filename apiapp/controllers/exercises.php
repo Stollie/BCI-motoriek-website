@@ -17,12 +17,10 @@ class Exercises_Controller extends Base_Controller {
  
     public function get_index($id = null)
     {
-        if (is_null($id ))
-        {
+        if (is_null($id )) {
             return Response::eloquent(Exercise::all());
         }
-        else
-        {
+        else {
             $exercise = Exercise::find($id);
  
             if(is_null($exercise)){
@@ -35,19 +33,14 @@ class Exercises_Controller extends Base_Controller {
  
     public function post_index()
     {
-//        $newexercise = Input::json();
-//        print_r($newexercise->exercise->motionlogs);
-//        $exercise = new Exercise();
-//        $exercise->name = $newexercise->name;
-//        $exercise->save();
-// 
-//        $exercise->motionlogs()->insert($newexercise->motionlogs);
-//        return Response::eloquent($exercise);
-        
+        // Json ophalen
         $newexercise = Input::json();
+        // Exercise maken
         $exercise = new Exercise();
         $exercise->name = $newexercise->name;
         $exercise->save();
+        // Motionlogs van Exercise van opslaan
+        $exercise->motionlogs()->save($this->_toArray($newexercise->motionlogs));
         return Response::eloquent($exercise);
     }
  
@@ -77,6 +70,19 @@ class Exercises_Controller extends Base_Controller {
         return Response::eloquent($deleted);  
     } 
 
+    private function _toArray($obj) {
+        if(is_object($obj)) $obj = (array) $obj;
+        if(is_array($obj)) {
+          $new = array();
+          foreach($obj as $key => $val) {
+            $new[$key] = $this->_toArray($val);
+          }
+        }
+        else { 
+          $new = $obj;
+        }
+        return $new;
+    }
 }
 
 ?>

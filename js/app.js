@@ -15,12 +15,12 @@ $(function() {
      */
     App.Motionlog = DS.Model.extend({
         //id: DS.attr('number'), Geen id toevoegen
-        x: DS.attr('number'),
-        y: DS.attr('number'),
-        z: DS.attr('number'),
+        roll: DS.attr('number'),
+        pitch: DS.attr('number'),
+        yaw: DS.attr('number'),
         sum: function() {
-            return parseFloat(this.get('x')) + parseFloat(this.get('y')) + parseFloat(this.get('z'));
-        }.property('x', 'y', 'z'),
+            return parseFloat(this.get('roll')) + parseFloat(this.get('pitch')) + parseFloat(this.get('yaw'));
+        }.property('roll', 'pitch', 'yaw'),
         created_at: DS.attr('date')
     });   
     
