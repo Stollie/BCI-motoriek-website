@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Ember Starter Kit</title>
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8">
+    <title>Ember Starter Kit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="css/bootstrap-responsive.min.css">-->
+    <link rel="stylesheet" href="css/style.css">
 
-    <script type="text/x-handlebars">
-        <h2>Get al the logs!!</h2>
-
-        {{outlet}}
-
-    </script>
-   
-    <script type="text/x-handlebars" data-template-name="motionlogs">
-        <p>Logs:</p>
-        <ul>
-        {{#each model}}
-            {{render "log" this}}
-        {{/each}}
-        </ul>
-        
-        
-        {{debugger}}
-        {{log record}}        
-    </script>
-    
-    <script type="text/x-handlebars" id="log">
-        <li>:: {{roll}} || {{pitch}} || {{yaw}} = {{sum}}</li>
-    </script>
-
-    
-    
 </head>
 <body>
+    
+    <script type="text/x-handlebars">
+        <div class="container">
+            <div class="row-fluid">
+                <ul class="nav nav-tabs nav-stacked span3">
+                {{#each model}}
+                    <li>{{#linkTo "exercise" this}}{{name}}{{/linkTo}}</li>
+                {{/each}}
+                </ul>  
+                <div class="span9 well">{{outlet}}</div>
+            </div>
+        </div>
+    </script>
 
-  
-  <script src="js/libs/jquery-1.9.1.js"></script>
+    <script type="text/x-handlebars" id="exercise">
+        <h2>{{name}}</h2>
+        <p><small>{{created_at}}</small></p>
+        <p>Logs:</p>
+        <ul>
+        
+        {{#each motionlogs}}
+            {{mostionlog.roll}}
+            {{render "motionlog" this}}
+        {{/each}}
+        </ul>
+    </script>
+    
+<!--    <script type="text/x-handlebars" id="motionlogs" data-template-name="motionlogs">
+        {{view App.MotionlogsView controller="App.MotionlogsController"}}
+        <ul>
+        {{#each model}}
+            {{render "motionlog" this}}
+        {{/each}}
+        </ul>
+    </script>-->
+    <script type="text/x-handlebars" id="motionlog">
+        <li>{{roll}} + {{pitch}} + {{yaw}} = {{sum}}</li>
+    </script>
+    
+  <script src="js/libs/jquery-2.0.0.min.js"></script>
   <script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
   <script src="js/libs/ember-1.0.0-rc.2.js"></script>
   <script src="js/libs/ember-data.js"></script>

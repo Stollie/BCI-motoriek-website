@@ -17,16 +17,37 @@ class Exercises_Controller extends Base_Controller {
  
     public function get_index($id = null)
     {
-        if (is_null($id )) {
-            return Response::eloquent(Exercise::all());
+        if (Input::has('ids')) {
+
+            return json_encode(
+                    array('exercises' => 
+                        json_decode(
+                                Response::eloquent(Exercise::where_in('id', Input::get('ids'))->get()
+                        ))));
+            
+        }
+        elseif (is_null($id)) {
+            // alle exercies ophalven
+            // Aangepaste json voor Ember.js
+            return json_encode(array('exercises' => json_decode(Response::eloquent(Exercise::all()))));
+            //return Response::eloquent(Exercise::all());
         }
         else {
-            $exercise = Exercise::find($id);
- 
-            if(is_null($exercise)){
+            // 1 exercise ophalen
+            $exercise_object = Exercise::find($id);
+            
+            if(is_null($exercise_object)){
                 return Response::json('Log not found', 404);
             } else {
-                    return Response::eloquent($exercise);
+
+                $exercise['id'] = $exercise_object->id;
+                $exercise['name'] = $exercise_object->name;
+                
+                foreach ($exercise_object->motionlogs()->get() as $key ) {
+                    $exercise['motionlog_ids'][] = $key->id;
+                }
+
+                return json_encode(array('exercise' => $exercise, 'motionlogs' => $exercise_object->motionlogs()->get()));
             }
         }
     }

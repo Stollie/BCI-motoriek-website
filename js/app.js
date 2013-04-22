@@ -1,5 +1,8 @@
 $(function() {
-    App = Ember.Application.create({LOG_TRANSITIONS: true});
+    App = Ember.Application.create({});
+    DS.RESTAdapter.configure('App.Motionlog', {
+        sideloadsAs: 'motionlogs'
+    });
 
     // Prefix voor url
     DS.RESTAdapter.reopen({
@@ -8,8 +11,7 @@ $(function() {
     // Data Store
     App.Store = DS.Store.extend({
         revision: 11
-    });
-    
+    });   
     /*
      * Motionlog Model
      */
@@ -21,31 +23,37 @@ $(function() {
         sum: function() {
             return parseFloat(this.get('roll')) + parseFloat(this.get('pitch')) + parseFloat(this.get('yaw'));
         }.property('roll', 'pitch', 'yaw'),
-        created_at: DS.attr('date')
-    });   
+        exercise: DS.belongsTo('App.Exercise')
+    });
+    /*
+     * Exercise model
+     */
+    App.Exercise = DS.Model.extend({
+        name: DS.attr('string'),
+        created_at: DS.attr('date'),
+        updated_at: DS.attr('date'),
+        motionlogs: DS.hasMany('App.Motionlog')
+    });
     
     App.MotionlogsController = Ember.ArrayController.extend({});
+    App.ExercisesController = Ember.ArrayController.extend({});
 
-    App.MotionlogsView = Ember.View.extend({
-        templateName: 'motionlogs'
-    });
-     
     App.Router.map(function() {
-      this.resource('motionlogs', function() {
-        this.resource('motionlog', {path: '/motionlogs/:motionlog_id'});
-      });
+        this.resource('exercise', {path: '/exercises/:exercise_id'});
     });
-        
-    App.MotionlogsRoute = Ember.Route.extend({    
-        model: function(params) {
-          return App.Motionlog.find();
-        },
-        activate: function() {
-            console.log('Hallo motionlogs');
-        },
-        deactivate: function() {
     
+    App.ExerciseRoute = Ember.Route.extend({
+        modal: function(params) {
+            return App.Exercise.find(params.exercise_id);
         }
     });
     
+    App.ApplicationRoute = Ember.Route.extend({
+        model: function() {
+            return App.Exercise.find();
+        }
+//        activate: function() {
+//            console.log('Hallo');
+//        }         
+    });
 });

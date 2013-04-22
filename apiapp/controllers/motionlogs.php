@@ -5,9 +5,10 @@ class Motionlogs_Controller extends Base_Controller {
  
     public function get_index($id = null)
     {
-        if (is_null($id ))
+        if (is_null($id))
         {
             // Eindelijk goed.
+            //return json_encode(array('motionlogs' => json_decode(Response::eloquent(MotionLog::all()))));
             return json_encode(array('motionlogs' => json_decode(Response::eloquent(MotionLog::all()))));
         }
         else
@@ -17,7 +18,9 @@ class Motionlogs_Controller extends Base_Controller {
             if(is_null($log)){
                 return Response::json('Log not found', 404);
             } else {
-                return json_encode(array('motionlogs' => json_decode(Response::eloquent($log))));
+                return json_encode($log->to_array());
+//                return json_encode(array('motionlog' => json_decode(Response::eloquent($log))));
+                return Response::eloquent($log);
             }
         }
     }
