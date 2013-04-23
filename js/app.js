@@ -11,9 +11,7 @@ $(function() {
     DS.RESTAdapter.reopen({
       namespace: 'api/v1'
     });
-    DS.RESTAdapter.map('App.Exercise', {
-        motionlogs: { embedded: 'always' }
-    });
+
     // Data Store
     App.Store = DS.Store.extend({
         revision: 12
@@ -26,30 +24,30 @@ $(function() {
     });
     
     App.ExerciseRoute = Ember.Route.extend({
-        model: function(params) {
-            return {id: params.exercise_id};
+//        model: function(params) {
+//            return {id: params.exercise_id};
 //            return App.Exercise.find(params.exercise_id);
-        },
+//        },
         setupController: function(controller, model) {
             console.log('Hello update ? '+model.id);
 //            controller.set('content', App.Exercise.find(model.id));
-            var exercise_model = App.Exercise.find(model.id);
-            controller.set("content", exercise_model);
+//            var exercise_model = App.Exercise.find(model.id);
+            controller.set("content",  App.Exercise.find(model.id));
 //            controller.set('content', model);
         }
     });
-    App.EditExerciseRoute = Ember.Route.extend({
-        model: function(params) {
-            return  App.Exercise.find(params.exercise_id);
-            //return App.Exercise.find(params.exercise_id);
-        },
-        events: {
-          save: function() {
-            var exercise = this.modelFor('editExercise');
-            this.transitionTo('exercise', exercise);
-          }
-        }
-    });    
+//    App.EditExerciseRoute = Ember.Route.extend({
+//        model: function(params) {
+//            return  App.Exercise.find(params.exercise_id);
+//            //return App.Exercise.find(params.exercise_id);
+//        },
+//        events: {
+//          save: function() {
+//            var exercise = this.modelFor('editExercise');
+//            this.transitionTo('exercise', exercise);
+//          }
+//        }
+//    });    
     /*
      * Default route
      */

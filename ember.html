@@ -24,14 +24,12 @@
         </div>
     </script>
 
-    <script type="text/x-handlebars" id="exercise" data-template-name="exercise">
+    <script type="text/x-handlebars" data-template-name="exercise">
         <h2>{{name}}</h2>
         <p><small>{{createdAt}}</small></p>
         <p>Logs:</p>
-        {{motionlogs}}
         <ul>
         {{#each motionlogs}}
-            {{roll}}
             {{render "motionlog" this}}
         {{/each}}
         </ul>
