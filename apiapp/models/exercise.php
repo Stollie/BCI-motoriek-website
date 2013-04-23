@@ -37,6 +37,17 @@ class Exercise extends Eloquent {
         return $this->has_many('Motionlog');
     }
     
+    public function delete()
+    {
+        // delete all related motionlogs 
+        foreach($this->motionlogs as $motionlog)
+        {
+            $motionlog->delete();
+        }
+
+        // delete the exercise
+        return parent::delete();
+    }    
     
     /*
     public function group()

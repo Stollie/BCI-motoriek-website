@@ -72,13 +72,12 @@ class Exercises_Controller extends Base_Controller {
     public function delete_index($id = null)
     {
         $exercise = Exercise::find($id);
- 
         if(is_null($exercise))
         {
-             return Response::json('Log not found', 404);
+             return Response::json('Exercise not found', 404);
         }
         $deleted = $exercise;
-        $exercise->delete();    
+        $exercise->delete();   
         return Response::eloquent($deleted);  
     } 
 

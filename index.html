@@ -33,14 +33,20 @@
             {{render "motionlog" this}}
         {{/each}}
         </ul>
+        {{#linkTo "editExercise" this class="btn btn-primary"}}Edit{{/linkTo}}
     </script>
+    <script type="text/x-handlebars" data-template-name="editExercise">
+        <h2>{{name}} </h2>
+        {{input type="text" value=name}}
+        <p><small>{{createdAt}}</small></p>
+    </script>    
     <script type="text/x-handlebars" id="motionlog">
         <li>{{roll}} + {{pitch}} + {{yaw}} = {{sum}}</li>
     </script>
     
   <script src="js/libs/jquery-2.0.0.min.js"></script>
   <script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
-  <script src="js/libs/ember-1.0.0-rc.2.js"></script>
+  <script src="js/libs/ember-latest.js"></script>
   <script src="js/libs/ember-data-latest.js"></script>
   <script src="js/app.js"></script>
 </body>
