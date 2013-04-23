@@ -28,19 +28,22 @@
         <h2>{{name}}</h2>
         <p><small>{{createdAt}}</small></p>
         <p>Logs:</p>
+        {{motionlogs}}
         <ul>
         {{#each motionlogs}}
+            {{roll}}
             {{render "motionlog" this}}
         {{/each}}
         </ul>
-        {{#linkTo "editExercise" this class="btn btn-primary"}}Edit{{/linkTo}}
+        <!--<button {{action "editExercise"}} class="btn btn-primary">Edit</button>-->
+        <!--<button {{action "removeExercise"}} class="btn btn-danger">Delete</button>-->
     </script>
     <script type="text/x-handlebars" data-template-name="editExercise">
         <h2>{{name}} </h2>
         {{input type="text" value=name}}
         <p><small>{{createdAt}}</small></p>
     </script>    
-    <script type="text/x-handlebars" id="motionlog">
+    <script type="text/x-handlebars" id="motionlog" data-template-name="motionlog">
         <li>{{roll}} + {{pitch}} + {{yaw}} = {{sum}}</li>
     </script>
     
