@@ -25,28 +25,17 @@ $(function() {
     
     App.ExerciseRoute = Ember.Route.extend({
         model: function(params) {
-            return {id: params.exercise_id};
-//            return App.Exercise.find(params.exercise_id);
+//            return {id: params.exercise_id};
+            return App.Exercise.find(params.exercise_id);
         },
         setupController: function(controller, model) {
             console.log('Hello update ? '+model.id);
-            this.set("content",  App.Exercise.find(model.id));
+            controller.set("content",  App.Exercise.find(model.id));
 //            this.model(model.id);
 //            controller.set('content', model);
         }
     });
-//    App.EditExerciseRoute = Ember.Route.extend({
-//        model: function(params) {
-//            return  App.Exercise.find(params.exercise_id);
-//            //return App.Exercise.find(params.exercise_id);
-//        },
-//        events: {
-//          save: function() {
-//            var exercise = this.modelFor('editExercise');
-//            this.transitionTo('exercise', exercise);
-//          }
-//        }
-//    });  
+
     /*
      * Default route
      */
