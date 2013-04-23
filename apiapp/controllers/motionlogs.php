@@ -33,11 +33,12 @@ class Motionlogs_Controller extends Base_Controller {
         $log->roll = $newlog->roll;
         $log->pitch = $newlog->pitch;
         $log->yaw = $newlog->yaw;
+        $log->timestamp = $newlog->timestamp;
         $log->save();
 
         return Response::eloquent($log);
     }
- 
+ /*
     public function put_index()
     {
         $update = Input::json();
@@ -50,7 +51,8 @@ class Motionlogs_Controller extends Base_Controller {
         $log->save();
         return Response::eloquent($log);
     }
- 
+*/
+/*
     public function delete_index($id = null)
     {
         $log = MotionLog::find($id);
@@ -63,5 +65,5 @@ class Motionlogs_Controller extends Base_Controller {
         $log->delete();    
         return Response::eloquent($deleted);  
     } 
-
+*/
 }

@@ -33,7 +33,7 @@ class Exercises_Controller extends Base_Controller {
                 $exercise['id'] = $exercise_object->id;
                 $exercise['name'] = $exercise_object->name;
                 $exercise['created_at'] = $exercise_object->created_at;
-                $exercise['updated_at'] = $exercise_object->updated_at;
+                //$exercise['updated_at'] = $exercise_object->updated_at;
                 
                 foreach ($exercise_object->motionlogs()->get() as $key ) {
                     $exercise['motionlog_ids'][] = $key->id;

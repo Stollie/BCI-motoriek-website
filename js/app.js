@@ -24,15 +24,14 @@ $(function() {
     });
     
     App.ExerciseRoute = Ember.Route.extend({
-//        model: function(params) {
-//            return {id: params.exercise_id};
+        model: function(params) {
+            return {id: params.exercise_id};
 //            return App.Exercise.find(params.exercise_id);
-//        },
+        },
         setupController: function(controller, model) {
             console.log('Hello update ? '+model.id);
-//            controller.set('content', App.Exercise.find(model.id));
-//            var exercise_model = App.Exercise.find(model.id);
-            controller.set("content",  App.Exercise.find(model.id));
+            this.set("content",  App.Exercise.find(model.id));
+//            this.model(model.id);
 //            controller.set('content', model);
         }
     });
@@ -47,7 +46,7 @@ $(function() {
 //            this.transitionTo('exercise', exercise);
 //          }
 //        }
-//    });    
+//    });  
     /*
      * Default route
      */
@@ -81,6 +80,6 @@ $(function() {
     });
 
 /************************** * Controllers **************************/
-    //App.MotionlogsController = Ember.ArrayController.extend({});
+//    App.MotionlogsController = Ember.ArrayController.extend({});
 //    App.ExerciseController = Ember.ArrayController.extend({});
 });
