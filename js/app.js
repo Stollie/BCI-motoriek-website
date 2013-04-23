@@ -1,17 +1,30 @@
 $(function() {
+    // Le App
     App = Ember.Application.create({});
+    // Sideloads
     DS.RESTAdapter.configure('App.Motionlog', {
         sideloadsAs: 'motionlogs'
     });
-
     // Prefix voor url
     DS.RESTAdapter.reopen({
       namespace: 'api/v1'
     });
+//    DS.RESTAdapter.map('App.Exercise', {
+//        motionlogs: { embedded: 'always' }
+//      });
     // Data Store
     App.Store = DS.Store.extend({
-        revision: 11
-    });   
+        revision: 12
+    });
+    /*
+     * Exercise model
+     */
+    App.Exercise = DS.Model.extend({
+        name: DS.attr('string'),
+        createdAt: DS.attr('date'),
+        updatedAt: DS.attr('date'),
+        motionlogs: DS.hasMany('App.Motionlog')
+    });
     /*
      * Motionlog Model
      */
@@ -25,35 +38,30 @@ $(function() {
         }.property('roll', 'pitch', 'yaw'),
         exercise: DS.belongsTo('App.Exercise')
     });
-    /*
-     * Exercise model
-     */
-    App.Exercise = DS.Model.extend({
-        name: DS.attr('string'),
-        created_at: DS.attr('date'),
-        updated_at: DS.attr('date'),
-        motionlogs: DS.hasMany('App.Motionlog')
-    });
-    
-    App.MotionlogsController = Ember.ArrayController.extend({});
-    App.ExercisesController = Ember.ArrayController.extend({});
+
+    //App.MotionlogsController = Ember.ArrayController.extend({});
+    //App.ExercisesController = Ember.ArrayController.extend({});
 
     App.Router.map(function() {
-        this.resource('exercise', {path: '/exercises/:exercise_id'});
+        this.route("index");
+        this.resource("exercise", {path: "/exercises/:exercise_id"});
     });
     
     App.ExerciseRoute = Ember.Route.extend({
-        modal: function(params) {
-            return App.Exercise.find(params.exercise_id);
+//        modal: function(params) {
+//            return {id: params.exercise_id};
+//            //return App.Exercise.find(params.exercise_id);
+//        },
+        setupController: function(controller, model) {
+            controller.set('content', App.Exercise.find(model.id));
         }
     });
-    
+    /*
+     * Default route
+     */
     App.ApplicationRoute = Ember.Route.extend({
         model: function() {
             return App.Exercise.find();
-        }
-//        activate: function() {
-//            console.log('Hallo');
-//        }         
+        }        
     });
 });

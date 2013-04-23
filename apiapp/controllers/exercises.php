@@ -17,19 +17,10 @@ class Exercises_Controller extends Base_Controller {
  
     public function get_index($id = null)
     {
-        if (Input::has('ids')) {
-
-            return json_encode(
-                    array('exercises' => 
-                        json_decode(
-                                Response::eloquent(Exercise::where_in('id', Input::get('ids'))->get()
-                        ))));
-            
-        }
-        elseif (is_null($id)) {
-            // alle exercies ophalven
+        if (is_null($id)) {
+            // alle exercies ophalen
             // Aangepaste json voor Ember.js
-            return json_encode(array('exercises' => json_decode(Response::eloquent(Exercise::all()))));
+            return Response::json(array('exercises' => json_decode(Response::eloquent(Exercise::all()))));
             //return Response::eloquent(Exercise::all());
         }
         else {
@@ -39,15 +30,15 @@ class Exercises_Controller extends Base_Controller {
             if(is_null($exercise_object)){
                 return Response::json('Log not found', 404);
             } else {
-
                 $exercise['id'] = $exercise_object->id;
                 $exercise['name'] = $exercise_object->name;
+                $exercise['created_at'] = $exercise_object->created_at;
+                $exercise['updated_at'] = $exercise_object->updated_at;
                 
                 foreach ($exercise_object->motionlogs()->get() as $key ) {
                     $exercise['motionlog_ids'][] = $key->id;
                 }
-
-                return json_encode(array('exercise' => $exercise, 'motionlogs' => $exercise_object->motionlogs()->get()));
+                return Response::json(array('exercise' => $exercise, 'motionlogs' => json_decode(Response::eloquent($exercise_object->motionlogs()->get()))));
             }
         }
     }
