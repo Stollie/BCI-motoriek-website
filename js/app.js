@@ -31,8 +31,10 @@ $(function() {
         },
         setupController: function(controller, model) {
             console.log('Hello update ? '+model.id);
-            var content = controller.set("content",  App.Exercise.find(model.id));
-            content.get('isLoaded');
+
+//            App.Store.loadMany(App.Exercise, data.contacts);
+            controller.set("content",  App.Exercise.find(model.id));
+//            content.get('isLoaded');
 //            this.model(model.id);
 //            controller.set('content', model);
         }
@@ -43,10 +45,14 @@ $(function() {
      */
     App.ApplicationRoute = Ember.Route.extend({
         model: function() {
-            return App.Exercise.find();
+            return App.ExerciseListing.find();
         }        
     });
-/************************** * Models **************************/ 
+/************************** * Models **************************/
+    App.ExerciseListing = DS.Model.extend({
+      name: DS.attr('string')
+    });
+
     /*
      * Exercise model
      */

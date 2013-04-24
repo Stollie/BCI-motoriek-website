@@ -31,7 +31,7 @@
 |		});
 |
 */
-
+Route::any('v1/exercise_listings', array('uses' => 'exercise_listings@index'));
 Route::any('v1/exercises/(:num?)', array('uses' => 'exercises@index'));
 
 Route::any('v1/motionlogs/(:num?)', array('uses' => 'motionlogs@index'));

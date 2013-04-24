@@ -49,7 +49,7 @@ jQuery.extend({
                 },
                 plotOptions: {
                     series: {
-                         pointInterval: 500
+                         pointInterval: 500 // 0.5 sec
                     }
                 },
                 tooltip: {
