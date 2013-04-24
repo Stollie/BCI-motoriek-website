@@ -33,7 +33,12 @@ class Motionlogs_Controller extends Base_Controller {
         $log->roll = $newlog->roll;
         $log->pitch = $newlog->pitch;
         $log->yaw = $newlog->yaw;
-        $log->timestamp = $newlog->timestamp;
+        $log->accelX = $newlog->accelX;
+        $log->accelY = $newlog->accelY;
+        $log->accelZ = $newlog->accelZ;
+        $log->gyroX = $newlog->gyroX;
+        $log->gyroY = $newlog->gyroY;
+        $log->gyroZ = $newlog->gyroZ;
         $log->save();
 
         return Response::eloquent($log);

@@ -14,7 +14,8 @@ $(function() {
 
     // Data Store
     App.Store = DS.Store.extend({
-        revision: 12
+        revision: 12,
+        adapter: 'DS.RESTAdapter'
     });
     
 /************************** * Routes **************************/    
@@ -30,7 +31,8 @@ $(function() {
         },
         setupController: function(controller, model) {
             console.log('Hello update ? '+model.id);
-            controller.set("content",  App.Exercise.find(model.id));
+            var content = controller.set("content",  App.Exercise.find(model.id));
+            content.get('isLoaded');
 //            this.model(model.id);
 //            controller.set('content', model);
         }

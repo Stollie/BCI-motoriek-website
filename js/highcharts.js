@@ -7,11 +7,26 @@ jQuery.extend({
             var pitch = new Array();
             var roll = new Array();
             var yaw = new Array();
+            
+            var accelX = new Array();
+            var accelY = new Array();
+            var accelZ = new Array();
+            var gyroX = new Array();
+            var gyroY = new Array();
+            var gyroZ = new Array();
 
             $.each(data.motionlogs, function(){
                 pitch.push(this.pitch * 1000);
                 roll.push(this.roll * 1000);
                 yaw.push(this.yaw * 1000);
+                
+                accelX.push(this.accelx * 1000);
+                accelY.push(this.accely * 1000);
+                accelZ.push(this.accelz * 1000);
+
+                gyroX.push(this.gyrox * 1000);
+                gyroY.push(this.gyroy * 1000);
+                gyroZ.push(this.gyroz * 1000);
             });
 
             $("#container").highcharts({
@@ -51,6 +66,24 @@ jQuery.extend({
                 }, {
                     name: 'Yaw values',
                     data: yaw
+                }, {
+                    name: 'Accel X',
+                    data: accelX
+                }, {
+                    name: 'Accel Y',
+                    data: accelY
+                }, {
+                    name: 'Accel Z',
+                    data: accelZ
+                }, {
+                    name: 'Gyro X',
+                    data: gyroX
+                }, {
+                    name: 'Gyro Y',
+                    data: gyroY
+                }, {
+                    name: 'Gyro X',
+                    data: gyroZ
                 }]
             });        
 
