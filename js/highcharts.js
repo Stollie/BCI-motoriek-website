@@ -14,7 +14,7 @@ jQuery.extend({
             var gyroX = new Array();
             var gyroY = new Array();
             var gyroZ = new Array();
-
+            
             $.each(data.motionlogs, function(){
                 pitch.push(this.pitch * 1000);
                 roll.push(this.roll * 1000);
@@ -28,6 +28,35 @@ jQuery.extend({
                 gyroY.push(this.gyroy * 1000);
                 gyroZ.push(this.gyroz * 1000);
             });
+
+console.log([{
+                    name: 'Pitch values',
+                    data: pitch
+                }, {
+                    name: 'Roll values',
+                    data: roll
+                }, {
+                    name: 'Yaw values',
+                    data: yaw
+                }, {
+                    name: 'Accel X',
+                    data: accelX
+                }, {
+                    name: 'Accel Y',
+                    data: accelY
+                }, {
+                    name: 'Accel Z',
+                    data: accelZ
+                }, {
+                    name: 'Gyro X',
+                    data: gyroX
+                }, {
+                    name: 'Gyro Y',
+                    data: gyroY
+                }, {
+                    name: 'Gyro X',
+                    data: gyroZ
+                }]);
 
             $("#container").highcharts({
                 chart: {

@@ -33,19 +33,18 @@ class Exercises_Controller extends Base_Controller {
                 $exercise['id'] = $exercise_object->id;
                 $exercise['name'] = $exercise_object->name;
                 $exercise['created_at'] = $exercise_object->created_at;
-
-                $exercise['roll'] = $exercise_object->motionlogs()->get_attribute('roll')->to_array();
-//                $exercise['pitch']
-//                $exercise['yaw']
-//                $exercise['accely']
-//                $exercise['accelx']
-//                $exercise['accelZ']
-//                $exercise['gyrox']
-//                $exercise['gyroY']
-//                $exercise['gyroZ']
-                        
+  
                 foreach ($exercise_object->motionlogs()->get() as $key ) {
-                    $exercise['motionlog_ids'][] = $key->id;
+                    $exercise['motionlog_ids'][]    = $key->id;
+//                    $exercise['roll'][]             = $key->roll;
+//                    $exercise['pitch'][]            = $key->pitch;
+//                    $exercise['yaw'][]              = $key->yaw;
+//                    $exercise['accely'][]           = $key->accely;
+//                    $exercise['accelx'][]           = $key->accelx;
+//                    $exercise['accelZ'][]           = $key->accelZ;
+//                    $exercise['gyrox'][]            = $key->gyrox;
+//                    $exercise['gyroY'][]            = $key->gyroY;
+//                    $exercise['gyroZ'][]            = $key->gyroZ;         
                 }
                 return Response::json(array('exercise' => $exercise, 'motionlogs' => json_decode(Response::eloquent($exercise_object->motionlogs()->get()))));
             }
