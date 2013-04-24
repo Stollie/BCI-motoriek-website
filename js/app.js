@@ -6,6 +6,69 @@ $(function() {
         sideloadsAs: 'motionlogs'
     });
 
+/************************** * ChartConfig **************************/ 
+App.ChartConfig = Ember.Object.extend({
+    chart: null,
+    setChart : function() {
+        var chart = {
+            renderTo : this.get('renderToId'),
+            defaultSeriesType : this.get('graphType'),
+            type: 'line',
+            zoomType: 'x',
+            series : this.get('seriesData')
+        };
+        this.set('chart', chart);
+    },
+    title: {
+        text: null
+    },
+    xAxis: {
+        type: 'datetime',
+        tickInterval: 5000 // 5 sec
+    },
+    plotOptions: {
+        series: {
+             pointInterval: 500 // 0.5 sec
+        }
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.y}</b><br/>',
+        shared: true
+    },
+    renderToId : null,
+    seriesData : null,
+    graphType : null
+
+});
+App.graphController = Ember.ArrayController.create({
+    content : Ember.A([]),
+
+    createGraph : function(renderTo, graphType, seriesData) {
+        var chart = App.ChartConfig.create();
+        chart.set('renderToId', renderTo);
+        chart.set('graphType', graphType);
+        chart.set('seriesData', seriesData);
+        chart.setChart();
+        this.pushObject(chart);
+    },
+
+    renderCharts : function() {
+        this.forEach(this.renderChart, this);
+    },
+
+    renderChart : function(config) {
+        new Highcharts.Chart($.extend({}, config));
+    }
+//
+//    switchTypes : function() {
+//        this.forEach(function(chart) {
+//            var newType = chart.graphType == 'line' ? 'column' : 'line';
+//            chart.set('graphType', newType);
+//            chart.setChart();
+//        });
+//        this.renderCharts();
+//    }
+});
 /************************** * RESTAdapter **************************/  
     // Prefix voor url
     DS.RESTAdapter.reopen({
@@ -26,17 +89,48 @@ $(function() {
     
     App.ExerciseRoute = Ember.Route.extend({
         model: function(params) {
-//            return {id: params.exercise_id};
             return App.Exercise.find(params.exercise_id);
         },
         setupController: function(controller, model) {
-            console.log('Hello update ? '+model.id);
-
-//            App.Store.loadMany(App.Exercise, data.contacts);
-            controller.set("content",  App.Exercise.find(model.id));
-//            content.get('isLoaded');
-//            this.model(model.id);
-//            controller.set('content', model);
+            var data = App.Exercise.find(model.id);            
+            controller.set("content", data);
+            
+            var data2 = controller.get("content");
+            console.log(data2);
+            data2.forEach(function(element, index){
+                console.log(element);
+            });
+//            //console.log(data.get('motionlogs'));
+//            data.forEach(function(element, index){
+//                console.log(element);
+//            });
+            var pitch = new Array();
+            var roll = new Array();
+            var yaw = new Array();
+            
+            var accelX = new Array();
+            var accelY = new Array();
+            var accelZ = new Array();
+            var gyroX = new Array();
+            var gyroY = new Array();
+            var gyroZ = new Array();
+            
+//            $.each(data, function(){
+//                pitch.push(this.pitch * 1000);
+//                roll.push(this.roll * 1000);
+//                yaw.push(this.yaw * 1000);
+//                
+//                accelX.push(this.accelx * 1000);
+//                accelY.push(this.accely * 1000);
+//                accelZ.push(this.accelz * 1000);
+//
+//                gyroX.push(this.gyrox * 1000);
+//                gyroY.push(this.gyroy * 1000);
+//                gyroZ.push(this.gyroz * 1000);
+//            });            
+            
+//            App.graphController.createGraph('graph1', 'line', );
+//            App.graphController.renderCharts();            
         }
     });
 
@@ -49,10 +143,13 @@ $(function() {
         }        
     });
 /************************** * Models **************************/
+    /*
+     * List model
+     *  Om aparte lijst een maken
+     */
     App.ExerciseListing = DS.Model.extend({
-      name: DS.attr('string')
+        name: DS.attr('string')
     });
-
     /*
      * Exercise model
      */
