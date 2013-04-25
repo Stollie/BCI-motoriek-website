@@ -172,7 +172,7 @@ $(function() {
                 if (parseFloat(Math.round(parseFloat(element.get('gyroy')))) > 3) {
                     oefening1couter = oefening1couter + 1;
                     $("#counter").html(oefening1couter);
-                    console.log("Hit");
+//                    console.log("Hit");
                 }
                 gyroX.push(parseFloat(element.get('gyrox')) );
                 gyroY.push(parseFloat(element.get('gyroy')) );
@@ -203,7 +203,7 @@ $(function() {
             data.forEach(function(element, index){
                 counter ++;
                 setTimeout(function(){
-                    console.log('linear-gradient(45deg, rgb('+Math.round(parseFloat(element.get('accelx'))*multi)+','+Math.round(parseFloat(element.get('accely'))*multi)+','+Math.round(parseFloat(element.get('accelz'))*multi)+') 0%,rgb('+Math.round(parseFloat(element.get('gyrox'))*multi)+','+Math.round(parseFloat(element.get('gyroy'))*multi)+','+Math.round(parseFloat(element.get('gyroz'))*multi)+') 100%)');
+//                    console.log('linear-gradient(45deg, rgb('+Math.round(parseFloat(element.get('accelx'))*multi)+','+Math.round(parseFloat(element.get('accely'))*multi)+','+Math.round(parseFloat(element.get('accelz'))*multi)+') 0%,rgb('+Math.round(parseFloat(element.get('gyrox'))*multi)+','+Math.round(parseFloat(element.get('gyroy'))*multi)+','+Math.round(parseFloat(element.get('gyroz'))*multi)+') 100%)');
                     $("#colorbox").css("background", 'linear-gradient(45deg, rgb('+Math.round(parseFloat(element.get('accelx'))*multi)+','+Math.round(parseFloat(element.get('accely'))*multi)+','+Math.round(parseFloat(element.get('accelz'))*multi)+') 0%,rgb('+Math.round(parseFloat(element.get('gyrox'))*multi)+','+Math.round(parseFloat(element.get('gyroy'))*multi)+','+Math.round(parseFloat(element.get('gyroz'))*multi)+') 100%)');
                 }, counter * 1500);                
             });  
