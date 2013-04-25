@@ -2,3 +2,4 @@ body { margin-top: 30px }
 .active {
   color: red !important;
 }
+#colorbox { background: #efefef; height: 500px; width: 100%;}

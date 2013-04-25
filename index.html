@@ -25,20 +25,21 @@
     <script type="text/x-handlebars" data-template-name="exercise">
         <h2>{{name}}</h2>
         <p><small>{{createdAt}}</small></p>
+        <p><img src="img/oefening11.jpg" style="float:left;"><strong>Oefening 1</strong><br />
+            Doe voordat je begint met beeldschermwerk altijd een warming-up van je polsen. Grijp je vingers in elkaar en draai je polsen losjes in het rond. Doe dit ongeveer 1 minuut.</p>
+        <p>Deze beweging is <strong><div id="counter">0</div></strong> gedaan</p>
+        <br />
         <div id="graph1"></div>
         
-        <p>Logs:</p>
-        <ul>
-        {{#each motionlogs}}
-            {{render "motionlog" this}}
-        {{/each}}
-        </ul>
-        
+        <div id="colorbox"></div>
     </script>
-    <script type="text/x-handlebars" data-template-name="editExercise">
-        <h2>{{name}} </h2>
-        {{input type="text" value=name}}
-        <p><small>{{createdAt}}</small></p>
+    <script type="text/x-handlebars" id="editExercise">
+        {{#linkTo "editExercise" this class="btn btn-primary"}}Edit{{/linkTo}}
+        <form {{action ExerciseRoute.save on="submit"}}>
+            <h2>{{input type="text" value=name}}</h2>
+            <p><small>{{createdAt}}</small></p>
+            <p><button type="submit" class="btn btn-primary">Update</button></p>
+        </form>
     </script>    
     <script type="text/x-handlebars" id="motionlog" data-template-name="motionlog">
         <li>{{roll}} + {{pitch}} + {{yaw}}</li>

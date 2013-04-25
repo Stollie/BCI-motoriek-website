@@ -69,7 +69,7 @@ $(function() {
 /************************** * Routes **************************/    
     App.Router.map(function() {
         this.resource("exercise", {path: "/exercises/:exercise_id"});
-//        this.resource("editExercise", {path: "/exercises/:exercise_id/edit"});
+        this.resource("editExercise", {path: "/exercises/:exercise_id/edit"});
     });
     
     App.ExerciseRoute = Ember.Route.extend({
@@ -82,7 +82,12 @@ $(function() {
             controller.set('content',data);
             setTimeout(function(){
                 controller.addGraph();
-            }, 3000);          
+                
+            }, 3000);
+            
+            setTimeout(function(){
+                controller.startDisco();
+            }, 6000);
         }
     });
     /*
@@ -139,7 +144,7 @@ $(function() {
 //        },
         addGraph: function(){
 //            console.log('ExerciseController addGraph');
-
+            
             var content = this.get('content');
             var data = content.get('motionlogs');
             
@@ -154,20 +159,25 @@ $(function() {
             var gyroY = new Array();
             var gyroZ = new Array();
             
-            data.forEach(function(element, index){
-                pitch.push(parseFloat(element.get('pitch')) * 1000);
-                roll.push(parseFloat(element.get('roll')) * 1000);
-                yaw.push(parseFloat(element.get('yaw')) * 1000);
-                
-                accelX.push(parseFloat(element.get('accelx')) * 1000);
-                accelY.push(parseFloat(element.get('accely')) * 1000);
-                accelZ.push(parseFloat(element.get('accelz')) * 1000);
-
-                gyroX.push(parseFloat(element.get('gyrox')) * 1000);
-                gyroY.push(parseFloat(element.get('gyroy')) * 1000);
-                gyroZ.push(parseFloat(element.get('gyroz')) * 1000);                
-            });
+            var oefening1couter = 0;
             
+            data.forEach(function(element, index){
+                pitch.push(parseFloat(element.get('pitch')) );
+                roll.push(parseFloat(element.get('roll')) );
+                yaw.push(parseFloat(element.get('yaw')) );
+                
+                accelX.push(parseFloat(element.get('accelx')) );
+                accelY.push(parseFloat(element.get('accely')) );
+                accelZ.push(parseFloat(element.get('accelz')) );
+                if (parseFloat(Math.round(parseFloat(element.get('gyroy')))) > 3) {
+                    oefening1couter + 1;
+                    console.log("Hit");
+                }
+                gyroX.push(parseFloat(element.get('gyrox')) );
+                gyroY.push(parseFloat(element.get('gyroy')) );
+                gyroZ.push(parseFloat(element.get('gyroz')) );                
+            });
+            $("#counter").html(oefening1couter);
             var graphdata = [
                 {name:"Pitch values", data: pitch},
                 {name:"Roll values", data: roll},
@@ -181,6 +191,22 @@ $(function() {
             ];
             App.graphController.createGraph(graphdata);
             App.graphController.renderChart();                
-        }
+        },
+        startDisco: function() {
+    
+            var content = this.get('content');
+            var data = content.get('motionlogs');
+
+            var multi = 1000;
+            var counter = 0;
+            data.forEach(function(element, index){
+                counter ++;
+                setTimeout(function(){
+                    console.log('linear-gradient(45deg, rgb('+Math.round(parseFloat(element.get('accelx'))*multi)+','+Math.round(parseFloat(element.get('accely'))*multi)+','+Math.round(parseFloat(element.get('accelz'))*multi)+') 0%,rgb('+Math.round(parseFloat(element.get('gyrox'))*multi)+','+Math.round(parseFloat(element.get('gyroy'))*multi)+','+Math.round(parseFloat(element.get('gyroz'))*multi)+') 100%)');
+                    $("#colorbox").css("background", 'linear-gradient(45deg, rgb('+Math.round(parseFloat(element.get('accelx'))*multi)+','+Math.round(parseFloat(element.get('accely'))*multi)+','+Math.round(parseFloat(element.get('accelz'))*multi)+') 0%,rgb('+Math.round(parseFloat(element.get('gyrox'))*multi)+','+Math.round(parseFloat(element.get('gyroy'))*multi)+','+Math.round(parseFloat(element.get('gyroz'))*multi)+') 100%)');
+                }, counter * 1500);                
+            });  
+
+        }               
     });
 });

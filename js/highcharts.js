@@ -16,17 +16,17 @@ jQuery.extend({
             var gyroZ = new Array();
             
             $.each(data.motionlogs, function(){
-                pitch.push(this.pitch * 1000);
-                roll.push(this.roll * 1000);
-                yaw.push(this.yaw * 1000);
+                pitch.push(parseFloat(this.pitch));
+                roll.push(parseFloat(this.roll));
+                yaw.push(parseFloat(this.yaw));
                 
-                accelX.push(this.accelx * 1000);
-                accelY.push(this.accely * 1000);
-                accelZ.push(this.accelz * 1000);
+                accelX.push(parseFloat(this.accelx));
+                accelY.push(parseFloat(this.accely));
+                accelZ.push(parseFloat(this.accelz));
 
-                gyroX.push(this.gyrox * 1000);
-                gyroY.push(this.gyroy * 1000);
-                gyroZ.push(this.gyroz * 1000);
+                gyroX.push(parseFloat(this.gyrox));
+                gyroY.push(parseFloat(this.gyroy));
+                gyroZ.push(parseFloat(this.gyroz));
             });
 
             $("#container").highcharts({
