@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Ember Starter Kit</title>
+    <title>iPhone motion logs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -14,7 +14,7 @@
             <div class="row-fluid">
                 <ul class="nav nav-tabs nav-stacked span3">
                 {{#each model}}
-                    <li>{{#linkTo "exercise" this}}{{name}}{{/linkTo}}</li>
+                    <li>{{#linkTo "exercise" this}}{{name}}<br /><small>{{createdAt}}</small>{{/linkTo}}</li>
                 {{/each}}
                 </ul>  
                 <div class="span9 well">{{outlet}}</div>
@@ -41,7 +41,7 @@
         <p><small>{{createdAt}}</small></p>
     </script>    
     <script type="text/x-handlebars" id="motionlog" data-template-name="motionlog">
-        <li>{{roll}} + {{pitch}} + {{yaw}} = {{sum}}</li>
+        <li>{{roll}} + {{pitch}} + {{yaw}}</li>
     </script>
     
   <script src="js/libs/jquery-2.0.0.min.js"></script>

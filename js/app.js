@@ -7,59 +7,53 @@ $(function() {
     });
 
 /************************** * ChartConfig **************************/ 
-App.ChartConfig = Ember.Object.extend({
-    chart: null,
-    setChart : function() {
-        var chart = {
-//            renderTo : this.get('renderToId'),
-            renderTo : 'graph1',
-            type: 'line',
-            zoomType: 'x'
-        };
-        this.set('series', this.get('seriesData'));
-        this.set('chart', chart);
-        
-    },
-    title: {
-        text: null
-    },
-    xAxis: {
-        type: 'datetime',
-        tickInterval: 5000 // 5 sec
-    },
-    plotOptions: {
-        series: {
-             pointInterval: 500 // 0.5 sec
+    App.ChartConfig = Ember.Object.extend({
+        chart: null,
+        setChart : function() {
+            var chart = {
+                renderTo : 'graph1',
+                type: 'line',
+                zoomType: 'x'
+            };
+            this.set('chart', chart);
+        },
+        title: {
+            text: null
+        },
+        xAxis: {
+            type: 'datetime',
+            tickInterval: 5000 // 5 sec
+        },
+        yAxis: {
+             title: {
+                 text: 'x 1000'
+             }
+         },
+        plotOptions: {
+            series: {
+                 pointInterval: 500 // 0.5 sec
+            }
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.y}</b><br/>',
+            shared: true
+        },
+        series : null
+    });
+
+    App.graphController = Ember.ObjectController.create({
+        content : null,
+        createGraph : function(seriesData) {
+            var chart = App.ChartConfig.create();
+            chart.set('series', seriesData);
+            chart.setChart();
+            this.set('content', chart);
+        },
+        renderChart : function() {
+            var data = this.get('content');
+            new Highcharts.Chart($.extend({}, data));
         }
-    },
-    tooltip: {
-        pointFormat: '{series.name}: <b>{point.y}</b><br/>',
-        shared: true
-    },
-    renderTo : null,
-    series : null
-});
-
-App.graphController = Ember.ArrayController.create({
-    content : Ember.A([]),
-
-    createGraph : function(renderToId, seriesData) {
-        var chart = App.ChartConfig.create();
-        chart.set('renderTo', renderToId);
-//        chart.set('graphType', graphType);
-        chart.set('seriesData', seriesData);
-        chart.setChart();
-        this.pushObject(chart);
-    },
-
-    renderCharts : function() {
-        this.forEach(this.renderChart, this);
-    },
-
-    renderChart : function(config) {
-        new Highcharts.Chart($.extend({}, config));
-    }
-});
+    });
 /************************** * RESTAdapter **************************/  
     // Prefix voor url
     DS.RESTAdapter.reopen({
@@ -84,11 +78,13 @@ App.graphController = Ember.ArrayController.create({
         },
         setupController: function(controller, model) {
             var data = App.Exercise.find(model.id);
-            controller.set("content", data); 
-            controller.addGraph();
+            controller.set('model',data);
+            controller.set('content',data);
+            setTimeout(function(){
+                controller.addGraph();
+            }, 3000);          
         }
     });
-
     /*
      * Default route
      */
@@ -100,10 +96,11 @@ App.graphController = Ember.ArrayController.create({
 /************************** * Models **************************/
     /*
      * List model
-     *  Om aparte lijst een maken
+     *  Om een aparte lijst te maken
      */
     App.ExerciseListing = DS.Model.extend({
-        name: DS.attr('string')
+        name: DS.attr('string'),
+        createdAt: DS.attr('string')
     });
     /*
      * Exercise model
@@ -128,56 +125,62 @@ App.graphController = Ember.ArrayController.create({
         gyrox: DS.attr('number'),
         gyroy: DS.attr('number'),
         gyroz: DS.attr('number'),
-        sum: function() {
-            return parseFloat(this.get('roll')) + parseFloat(this.get('pitch')) + parseFloat(this.get('yaw'));
-        }.property('roll', 'pitch', 'yaw'),
         exercise: DS.belongsTo('App.Exercise')
     });
 
 /************************** * Controllers **************************/
 //    App.MotionlogsController = Ember.ArrayController.extend({});
     App.ExerciseController = Ember.ObjectController.extend({
+//        waitOnLoad: function() {
+//            this.get('model').on('didLoad', function() {
+//                console.log("Loaded!");
+//                App.ExerciseController.addGraph();
+//            });
+//        },
         addGraph: function(){
-//            console.log(this.get('content'));
-//            var data2 = this.get("content");
-//            console.log(data2);
-//            data2.forEach(function(element, index){
-//                console.log(element);
-//            });
-//            console.log(this.content.get('motionlogs'));
-//            console.log(this.content.motionlogs);
-//            data.forEach(function(element, index){
-//                console.log(element);
-//            });
-//            var pitch = new Array();
-//            var roll = new Array();
-//            var yaw = new Array();
-//            
-//            var accelX = new Array();
-//            var accelY = new Array();
-//            var accelZ = new Array();
-//            var gyroX = new Array();
-//            var gyroY = new Array();
-//            var gyroZ = new Array();
+//            console.log('ExerciseController addGraph');
+
+            var content = this.get('content');
+            var data = content.get('motionlogs');
             
-//            $.each(data, function(){
-//                pitch.push(this.pitch * 1000);
-//                roll.push(this.roll * 1000);
-//                yaw.push(this.yaw * 1000);
-//                
-//                accelX.push(this.accelx * 1000);
-//                accelY.push(this.accely * 1000);
-//                accelZ.push(this.accelz * 1000);
-//
-//                gyroX.push(this.gyrox * 1000);
-//                gyroY.push(this.gyroy * 1000);
-//                gyroZ.push(this.gyroz * 1000);
-//            });
+            var pitch = new Array();
+            var roll = new Array();
+            var yaw = new Array();
             
-            App.graphController.createGraph("graph1", [{name:"Pitch values", data:[0, -31.63, 88.794, 28.814, 155.084, 675.7959999999999, 65.023, 838.798, 658.3520000000001, 479.63]}, {name:"Roll values", data:[0, -29.799, -48.732, 211.69199999999998, 679.433, -344.959, 251.25599999999997, -15.084, 352.303, -24.884]}, {name:"Yaw values", data:[0, 142.121, 171.50799999999998, 150.34900000000002, -214.34900000000002, 75.641, -109.237, -184.577, -755.576, -625.518]}, {name:"Accel X", data:[0, 46.824, 306.745, 71.32900000000001, 221.856, 33.625, -36.303000000000004, 14.597000000000001, 10.474, 27.629]}, {name:"Accel Y", data:[0, 105.93299999999999, 2.3739999999999997, -18.157, -65.156, -34.729000000000006, -9.867, 60.186, -3.313, 1.23]}, {name:"Accel Z", data:[0, -149.793, 374.486, -137.262, -360.02299999999997, 66.949, -62.239000000000004, -30.48, 108.095, -18.047]}, {name:"Gyro X", data:[0, -40.455, -346.94399999999996, 448.121, 1854.76, -1089.19, -779.616, 1907.92, -751.619, -259.96200000000005]}, {name:"Gyro Y", data:[0, -913.073, 10554.3, -6101.66, -4067.9999999999995, 40.858, 3206.36, -527.55, -781.976, 13.037999999999998]}, {name:"Gyro X", data:[0, 570.87, -1617.8, 362.39500000000004, 1146.96, 40.985, -1118.91, 295.173, -837.7280000000001, 100.821]}]);
-            setTimeout(function(){
-                App.graphController.renderCharts();                
-            }, 2000);
+            var accelX = new Array();
+            var accelY = new Array();
+            var accelZ = new Array();
+            var gyroX = new Array();
+            var gyroY = new Array();
+            var gyroZ = new Array();
+            
+            data.forEach(function(element, index){
+                pitch.push(parseFloat(element.get('pitch')) * 1000);
+                roll.push(parseFloat(element.get('roll')) * 1000);
+                yaw.push(parseFloat(element.get('yaw')) * 1000);
+                
+                accelX.push(parseFloat(element.get('accelx')) * 1000);
+                accelY.push(parseFloat(element.get('accely')) * 1000);
+                accelZ.push(parseFloat(element.get('accelz')) * 1000);
+
+                gyroX.push(parseFloat(element.get('gyrox')) * 1000);
+                gyroY.push(parseFloat(element.get('gyroy')) * 1000);
+                gyroZ.push(parseFloat(element.get('gyroz')) * 1000);                
+            });
+            
+            var graphdata = [
+                {name:"Pitch values", data: pitch},
+                {name:"Roll values", data: roll},
+                {name:"Yaw values", data: yaw},
+                {name:"Accel X", data: accelX},
+                {name:"Accel Y", data: accelY},
+                {name:"Accel Z", data: accelZ},
+                {name:"Gyro X", data: gyroX},
+                {name:"Gyro Y", data: gyroY},
+                {name:"Gyro X", data: gyroZ}
+            ];
+            App.graphController.createGraph(graphdata);
+            App.graphController.renderChart();                
         }
     });
 });
