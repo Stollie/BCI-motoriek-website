@@ -170,14 +170,15 @@ $(function() {
                 accelY.push(parseFloat(element.get('accely')) );
                 accelZ.push(parseFloat(element.get('accelz')) );
                 if (parseFloat(Math.round(parseFloat(element.get('gyroy')))) > 3) {
-                    oefening1couter + 1;
+                    oefening1couter = oefening1couter + 1;
+                    $("#counter").html(oefening1couter);
                     console.log("Hit");
                 }
                 gyroX.push(parseFloat(element.get('gyrox')) );
                 gyroY.push(parseFloat(element.get('gyroy')) );
                 gyroZ.push(parseFloat(element.get('gyroz')) );                
             });
-            $("#counter").html(oefening1couter);
+
             var graphdata = [
                 {name:"Pitch values", data: pitch},
                 {name:"Roll values", data: roll},
