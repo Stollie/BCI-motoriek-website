@@ -1,17 +1,10 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of exercise
  *
  * @author Remco
  */
 class Exercises_Controller extends Base_Controller {
-    //put your code here
 
     public $restful = true;
  
@@ -27,26 +20,21 @@ class Exercises_Controller extends Base_Controller {
             // 1 exercise ophalen
             $exercise_object = Exercise::find($id);
             
-            if(is_null($exercise_object)){
+            if (is_null($exercise_object)){
                 return Response::json('Log not found', 404);
             } else {
                 $exercise['id'] = $exercise_object->id;
                 $exercise['name'] = $exercise_object->name;
                 $exercise['created_at'] = $exercise_object->created_at;
   
+                // id list maken voor ember.js
                 foreach ($exercise_object->motionlogs()->get() as $key ) {
-                    $exercise['motionlog_ids'][]    = $key->id;
-//                    $exercise['roll'][]             = $key->roll;
-//                    $exercise['pitch'][]            = $key->pitch;
-//                    $exercise['yaw'][]              = $key->yaw;
-//                    $exercise['accely'][]           = $key->accely;
-//                    $exercise['accelx'][]           = $key->accelx;
-//                    $exercise['accelZ'][]           = $key->accelZ;
-//                    $exercise['gyrox'][]            = $key->gyrox;
-//                    $exercise['gyroY'][]            = $key->gyroY;
-//                    $exercise['gyroZ'][]            = $key->gyroZ;         
+                    $exercise['motionlog_ids'][] = $key->id;
                 }
-                return Response::json(array('exercise' => $exercise, 'motionlogs' => json_decode(Response::eloquent($exercise_object->motionlogs()->get()))));
+                return Response::json(array(
+                    'exercise' => $exercise,
+                    'motionlogs' => json_decode(Response::eloquent($exercise_object->motionlogs()->get()))
+                ));
             }
         }
     }
@@ -80,7 +68,7 @@ class Exercises_Controller extends Base_Controller {
     public function delete_index($id = null)
     {
         $exercise = Exercise::find($id);
-        if(is_null($exercise))
+        if (is_null($exercise))
         {
              return Response::json('Exercise not found', 404);
         }
@@ -88,7 +76,9 @@ class Exercises_Controller extends Base_Controller {
         $exercise->delete();   
         return Response::eloquent($deleted);  
     } 
-
+    /*
+     * Maak array's van objecten
+     */
     private function _toArray($obj) {
         if(is_object($obj)) $obj = (array) $obj;
         if(is_array($obj)) {

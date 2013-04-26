@@ -1,4 +1,9 @@
 <?php
+/**
+ * Description of exercise listing
+ *  lijst met exercises voor menu
+ * @author Remco
+ */
 class Exercise_listings_Controller extends Base_Controller {
  
     public $restful = true;

@@ -84,10 +84,6 @@ $(function() {
                 controller.addGraph();
                 
             }, 3000);
-            
-            setTimeout(function(){
-                controller.startDisco();
-            }, 6000);
         }
     });
     /*
@@ -133,6 +129,12 @@ $(function() {
         exercise: DS.belongsTo('App.Exercise')
     });
 
+/************************** * Views **************************/
+App.ExerciseView = Ember.View.extend({
+    click: function(evt) {
+        this.get('controller').send('startDisco'); 
+    }
+});
 /************************** * Controllers **************************/
 //    App.MotionlogsController = Ember.ArrayController.extend({});
     App.ExerciseController = Ember.ObjectController.extend({
@@ -194,20 +196,22 @@ $(function() {
             App.graphController.renderChart();                
         },
         startDisco: function() {
-    
             var content = this.get('content');
             var data = content.get('motionlogs');
-
+            var $colorbox = $("#colorbox");
+            var $colorbox_console = $("#colorbox-console");
+            $colorbox.html('');
             var multi = 1000;
             var counter = 0;
             data.forEach(function(element, index){
                 counter ++;
                 setTimeout(function(){
-//                    console.log('linear-gradient(45deg, rgb('+Math.round(parseFloat(element.get('accelx'))*multi)+','+Math.round(parseFloat(element.get('accely'))*multi)+','+Math.round(parseFloat(element.get('accelz'))*multi)+') 0%,rgb('+Math.round(parseFloat(element.get('gyrox'))*multi)+','+Math.round(parseFloat(element.get('gyroy'))*multi)+','+Math.round(parseFloat(element.get('gyroz'))*multi)+') 100%)');
-                    $("#colorbox").css("background", 'linear-gradient(45deg, rgb('+Math.round(parseFloat(element.get('accelx'))*multi)+','+Math.round(parseFloat(element.get('accely'))*multi)+','+Math.round(parseFloat(element.get('accelz'))*multi)+') 0%,rgb('+Math.round(parseFloat(element.get('gyrox'))*multi)+','+Math.round(parseFloat(element.get('gyroy'))*multi)+','+Math.round(parseFloat(element.get('gyroz'))*multi)+') 100%)');
-                }, counter * 1500);                
-            });  
-
+                    var bgcolor = 'linear-gradient('+Math.round(parseFloat(element.get('roll'))*100)+'deg, rgb('+Math.round(parseFloat(element.get('accelx'))*multi)+','+Math.round(parseFloat(element.get('accely'))*multi)+','+Math.round(parseFloat(element.get('accelz'))*multi)+') 0%,rgb('+Math.round(parseFloat(element.get('gyrox'))*multi)+','+Math.round(parseFloat(element.get('gyroy'))*multi)+','+Math.round(parseFloat(element.get('gyroz'))*multi)+') 100%)';
+                    $colorbox_console.html(bgcolor);
+//                    console.log(bgcolor);
+                    $colorbox.css("background", bgcolor);
+                }, counter * 1400);                
+            });
         }               
     });
 });
