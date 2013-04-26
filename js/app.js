@@ -145,8 +145,6 @@ App.ExerciseView = Ember.View.extend({
 //            });
 //        },
         addGraph: function(){
-//            console.log('ExerciseController addGraph');
-            
             var content = this.get('content');
             var data = content.get('motionlogs');
             
@@ -171,10 +169,12 @@ App.ExerciseView = Ember.View.extend({
                 accelX.push(parseFloat(element.get('accelx')) );
                 accelY.push(parseFloat(element.get('accely')) );
                 accelZ.push(parseFloat(element.get('accelz')) );
+                
+                // Controleren of beweging gedaan is
                 if (parseFloat(Math.round(parseFloat(element.get('gyroy')))) > 3) {
                     oefening1couter = oefening1couter + 1;
                     $("#counter").html(oefening1couter);
-//                    console.log("Hit");
+
                 }
                 gyroX.push(parseFloat(element.get('gyrox')) );
                 gyroY.push(parseFloat(element.get('gyroy')) );
@@ -201,14 +201,15 @@ App.ExerciseView = Ember.View.extend({
             var $colorbox = $("#colorbox");
             var $colorbox_console = $("#colorbox-console");
             $colorbox.html('');
+            
             var multi = 1000;
             var counter = 0;
+            
             data.forEach(function(element, index){
                 counter ++;
                 setTimeout(function(){
                     var bgcolor = 'linear-gradient('+Math.round(parseFloat(element.get('roll'))*100)+'deg, rgb('+Math.round(parseFloat(element.get('accelx'))*multi)+','+Math.round(parseFloat(element.get('accely'))*multi)+','+Math.round(parseFloat(element.get('accelz'))*multi)+') 0%,rgb('+Math.round(parseFloat(element.get('gyrox'))*multi)+','+Math.round(parseFloat(element.get('gyroy'))*multi)+','+Math.round(parseFloat(element.get('gyroz'))*multi)+') 100%)';
                     $colorbox_console.html(bgcolor);
-//                    console.log(bgcolor);
                     $colorbox.css("background", bgcolor);
                 }, counter * 1400);                
             });
